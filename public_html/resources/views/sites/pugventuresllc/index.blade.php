@@ -98,7 +98,8 @@
                     <div class="headul"></div>
                     <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12 inviewport animated delay1" data-effect="fadeInUp">
                         <!-- Contact Form - Start -->
-                        <form action='send_email.php' method='post'>
+                        <form>
+                            {{ csrf_field() }}
                             <input type='text' placeholder='Name' class='col-xs-12 transition' id='c_name' >
                             <input type='text' placeholder='Email' class='col-xs-12 transition' id='c_email' >
                             <input type='text' placeholder='Phone' class='col-xs-12 transition' id='c_phone' >
@@ -148,19 +149,6 @@
                     
                 </div>
             </div>
-            <!-- Copyright Bar - Start -->
-            <div class="copyright">
-                <div class="col-md-12">
-                    <div class="container">
-                        <div class="">
-                            <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 message inviewport animated delay1" data-effect="fadeInUp">
-                                <span class=""><small>&copy; {{ date('Y') }} Pug Ventures, LLC</small></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Copyright Bar - End -->
         </section>
         <!-- Section End - Footer -->
     </body>

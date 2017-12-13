@@ -237,10 +237,8 @@ jQuery(function($) {
             var name = $("#c_name").val();
             if (name == null || name == "") {
                 $("#c_name").removeClass("green");
-                console.log(name + "name err");
             } else {
                 $("#c_name").addClass("green");
-                console.log("name done");
             }
             enable_form();
         });
@@ -253,10 +251,8 @@ jQuery(function($) {
 
             if (email == null || email == "" || atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= email.length) {
                 $("#c_email").removeClass("green");
-                console.log("email err");
             } else {
                 $("#c_email").addClass("green");
-                console.log("email done");
             }
             enable_form();
         });
@@ -268,10 +264,8 @@ jQuery(function($) {
 
             if (phone == null || phone == "" || phone.length < 10 || !phoneRE.test(phone)) {
                 $("#c_phone").removeClass("green");
-                console.log("phone err");
             } else {
                 $("#c_phone").addClass("green");
-                console.log("phone done");
             }
             enable_form();
 
@@ -282,10 +276,8 @@ jQuery(function($) {
             var message = $("#c_message").val();
             if (message == null || message == "" || message.length < 9) {
                 $("#c_message").removeClass("green");
-                console.log("message err");
             } else {
                 $("#c_message").addClass("green");
-                console.log("message done");
             }
 
             enable_form();
@@ -318,11 +310,16 @@ jQuery(function($) {
                         $("#response_email").html("Sending...");
                     }
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        $("#response_email").html(xmlhttp.responseText);
-                    }
+                        // TODO: I would like to eventually remove the form completely
+                        //       after the email has been sent, and just leave the 
+                        //       confirmation message
+                        $("#response_email").html("We've received contact! Thank you!");
+                    }  
                 }
-                xmlhttp.open("POST", "maintainemail.php", true);
+                xmlhttp.open("POST", "contact", true);
+                
                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.setRequestHeader("X-CSRF-TOKEN", $('input[name="_token"]').attr('value'));
                 xmlhttp.send("email=" + encodeURIComponent(email) + "&name=" + encodeURIComponent(name) + "&phone=" + encodeURIComponent(phone) + "&msg=" + encodeURIComponent(msg));
                 return false;
 
@@ -338,10 +335,8 @@ jQuery(function($) {
             $("#c_email").hasClass("green") &&
             $("#c_message").hasClass("green")) {
             $("#c_send").removeClass("disabled");
-            console.log("enabled");
         } else {
             $("#c_send").addClass("disabled");
-            console.log("disabled");
         }
 
     }
