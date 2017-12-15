@@ -17,3 +17,6 @@ Route::get('/', function () {
 Route::post('/contact', 'Sites\PugVenturesLLC\ContactController@send');
 
 
+
+Route::get('/dashboard', 'Sites\PugVenturesLLC\AdminController@dashboard');
+
