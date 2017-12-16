@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Sites\PugVenturesLLC;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Mail\LLCContact;
 
@@ -17,6 +18,9 @@ class AdminController extends Controller
      */
     public function dashboard(Request $request)
     {
-        return view('sites/pugventuresllc/dashboard');
+        $data = array(
+            'user' => Auth::user()
+        );
+        return view('sites/pugventuresllc/dashboard', $data);
     }
 }

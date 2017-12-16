@@ -18,5 +18,5 @@ Route::post('/contact', 'Sites\PugVenturesLLC\ContactController@send');
 
 
 
-Route::get('/dashboard', 'Sites\PugVenturesLLC\AdminController@dashboard');
-
+Route::get('/dashboard', 'Sites\PugVenturesLLC\AdminController@dashboard')->middleware('auth.basic');
+Route::get('signout', ['uses' => 'Auth\LoginController@logout']);
