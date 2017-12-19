@@ -11,12 +11,13 @@
   |
  */
 
-Route::get('/', function () {
-    return view('sites/pugventuresllc/index');
-});
+Route::get('/', function () { return view('sites/pugventuresllc/index'); });
+Route::get('/login', function () { return view('sites/pugventuresllc/login'); })->name('login');
+Route::post('/login', ['uses' => 'Auth\LoginController@login']);
 Route::post('/contact', 'Sites\PugVenturesLLC\ContactController@send');
 
-
-
-Route::get('/dashboard', 'Sites\PugVenturesLLC\AdminController@dashboard')->middleware('auth.basic');
-Route::get('signout', ['uses' => 'Auth\LoginController@logout']);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', 'Sites\PugVenturesLLC\AdminController@dashboard');
+    Route::get('/logout', ['uses' => 'Auth\LoginController@logout']);
+    Route::get('/products', 'Sites\PugVenturesLLC\AdminController@products');
+});

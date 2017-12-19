@@ -5,5 +5,5 @@
 @section('title', 'Dashboard - Pug Ventures, LLC')
 
 @section('content')
-    <p>This is my body content.</p>
+    <p>Dashboard Widgets go here</p>
 @endsection

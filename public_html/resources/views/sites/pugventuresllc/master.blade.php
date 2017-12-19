@@ -62,7 +62,7 @@
                     </a>
                     <div class="dropdown-menu wd-200">
                         <ul class="list-unstyled user-profile-nav">
-                            <li><a href="{{ url('/signout') }}"><i class="icon ion-power"></i> Sign Out</a></li>
+                            <li><a href="{{ url('/logout') }}"><i class="icon ion-power"></i> Logout</a></li>
                         </ul>
                     </div><!-- dropdown-menu -->
                 </div><!-- dropdown -->
@@ -153,25 +153,25 @@
                     <ul class="nav am-sideleft-menu">
                         <li class="nav-item">
                             <a href="{{ url('\mail\inbox') }}" class="nav-link">
-                                <i class="icon ion-ios-filing-outline"></i>
+                                <i class="icon fas fa-inbox"></i>
                                 <span>Inbox</span>
                             </a>
                         </li><!-- nav-item -->
                         <li class="nav-item">
                             <a href="{{ url('\mail\drafts') }}" class="nav-link">
-                                <i class="icon ion-ios-filing-outline"></i>
+                                <i class="icon fas fa-tasks"></i>
                                 <span>Drafts</span>
                             </a>
                         </li><!-- nav-item -->
                         <li class="nav-item">
                             <a href="{{ url('\mail\sent') }}" class="nav-link">
-                                <i class="icon ion-ios-paperplane-outline"></i>
+                                <i class="icon fas fa-paper-plane"></i>
                                 <span>Sent</span>
                             </a>
                         </li><!-- nav-item -->
                         <li class="nav-item">
                             <a href="{{ url('\mail\deleted') }}" class="nav-link">
-                                <i class="icon ion-ios-trash-outline"></i>
+                                <i class="icon fas fa-trash-alt"></i>
                                 <span>Trash</span>
                             </a>
                         </li><!-- nav-item -->
@@ -190,7 +190,7 @@
                 <div id="notificationsMenu" class="tab-pane">
                     <div class="chat-search-bar">
                         <input type="search" class="form-control wd-150" placeholder="Search notifications...">
-                        <button class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                        <button class="btn btn-secondary"><i class="fas fa-search"></i></button>
                     </div><!-- chat-search-bar -->
 
                     <label class="pd-x-15 tx-uppercase tx-11 mg-t-20 tx-orange mg-b-10 tx-medium">Notifications</label>
@@ -225,7 +225,7 @@
         </div><!-- am-sideleft -->
 
         <div class="am-pagetitle">
-            <h5 class="am-title">Blank Page</h5>
+            <h5 class="am-title">@yield('title')</h5>
             <form id="searchBar" class="search-bar" action="index.html">
                 <div class="form-control-wrapper">
                     <input type="search" class="form-control bd-0" placeholder="Search...">
