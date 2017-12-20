@@ -16,14 +16,17 @@ class AdminController extends Controller
     
     public function dashboard(Request $request)
     {
+        // TODO: Population of 'user' needs to be a global event on every request
         $this->data['user'] = Auth::user();
         return view('sites.pugventuresllc.dashboard', $this->data);
     }
     
     public function products(Request $request)
     {
+        // TODO: Population of 'user' needs to be a global event on every request
         $this->data['user'] = Auth::user();
-        $this->data['products'] = Product::all();
+        $this->data['products'] = Product::with(['type', 'vendor', 'brand'])->paginate(25);
+
         return view('sites.pugventuresllc.products', $this->data);
     }
 }

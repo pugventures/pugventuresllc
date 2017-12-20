@@ -10,6 +10,7 @@
         <link href="{{ URL::asset('css/ionicons.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('css/perfect-scrollbar.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('css/toggles-full.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('css/font-awesome.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ URL::asset('css/amanda.css') }}">
     </head>
 

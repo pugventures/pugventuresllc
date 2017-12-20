@@ -273,6 +273,10 @@ textarea {
   touch-action: manipulation;
 }
 
+a>button {
+    cursor: pointer;
+}
+
 table {
   border-collapse: collapse;
 }
@@ -9035,8 +9039,8 @@ p {
   left: 0;
   width: 16px;
   height: 16px;
-  content: '\f00c';
-  font-family: 'FontAwesome';
+  content: "\F00C";
+  font-family: "FontAwesome";
   font-size: 9px;
   text-align: center;
   color: #fff;
@@ -56583,4 +56587,20 @@ a.hover-white-8:hover, a.hover-white-8:focus {
 
 .mx-wd-1350 {
   max-width: 1350px;
+}
+
+
+
+
+
+
+/********************* Pug Ventures Custom *********************/
+.product-hud {
+    font-size:12px;
+    font-style: italic;
+    color: #C0C0C0;
+}
+
+.table-hover tr {
+    cursor:pointer;
 }
