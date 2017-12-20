@@ -22,7 +22,7 @@
 
             <tbody>
                 @foreach($products as $product)
-                <tr>
+                <tr class="table-hover-clickable" data-product-id="{{ $product->id }}">
                     <td>
                         <div class="row">
                             <div class="col-sm-1">
@@ -48,4 +48,12 @@
 
     </div>
 </div>
+
+<script type="text/javascript">
+
+    $('.table-hover-clickable').bind('click', function(){
+        window.location.href='product/' + $(this).data('product-id');
+    });
+
+</script>
 @endsection

@@ -12,6 +12,9 @@
         <link href="{{ URL::asset('css/toggles-full.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('css/font-awesome.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ URL::asset('css/amanda.css') }}">
+
+        <!-- I know this is not "good", but it's easier to work with inline jQuery this way -->
+        <script src="{{ URL::asset('js/jquery.min.js') }}"></script>
     </head>
 
     <body>
@@ -144,7 +147,7 @@
                                 <li class="nav-item"><a href="{{ url('\channels\facebook') }}" class="nav-link">Facebook</a></li>
                             </ul>
                         </li><!-- nav-item -->
-                        
+
                     </ul>
                 </div><!-- #mainMenu -->
                 <div id="emailMenu" class="tab-pane">
@@ -206,7 +209,7 @@
                             </div>
                             <p>Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain...</p>
                         </a>-->
-                        
+
                     </div><!-- list-group -->
 
                 </div><!-- #notificationsMenu -->
@@ -244,7 +247,6 @@
         </div><!-- am-mainpanel -->
 
         <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
-        <script src="{{ URL::asset('js/jquery.min.js') }}"></script>
         <script src="{{ URL::asset('js/popper.js') }}"></script>
         <script src="{{ URL::asset('js/bootstrap.js') }}"></script>
         <script src="{{ URL::asset('js/perfect-scrollbar.jquery.js') }}"></script>
