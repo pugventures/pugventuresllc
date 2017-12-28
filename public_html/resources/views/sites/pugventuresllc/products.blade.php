@@ -12,7 +12,7 @@
 </div>
 <div class="row">
     <div class="col-sm">
-        {{ $products->links() }}
+        {{ $products->links('vendor.pagination.default') }}
 
         <table class="table table-hover">
             <thead>

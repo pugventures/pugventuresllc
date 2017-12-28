@@ -56604,3 +56604,13 @@ a.hover-white-8:hover, a.hover-white-8:focus {
 .table-hover tr {
     cursor:pointer;
 }
+
+.pagination-basic {
+    margin:10px 10px;
+}
+
+.paginator-info {
+    margin-top:0px;
+    margin-left:0px;
+    margin-bottom:10px;
+}

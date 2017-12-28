@@ -11,13 +11,23 @@
   |
  */
 
-Route::get('/', function () { return view('sites/pugventuresllc/index'); });
-Route::get('/login', function () { return view('sites/pugventuresllc/login'); })->name('login');
+Route::get('/', function () {
+    return view('sites/pugventuresllc/index');
+});
+Route::get('/login', function () {
+    return view('sites/pugventuresllc/login');
+})->name('login');
 Route::post('/login', ['uses' => 'Auth\LoginController@login']);
 Route::post('/contact', 'Sites\PugVenturesLLC\ContactController@send');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', 'Sites\PugVenturesLLC\AdminController@dashboard');
+    // Auth
     Route::get('/logout', ['uses' => 'Auth\LoginController@logout']);
-    Route::get('/products', 'Sites\PugVenturesLLC\AdminController@products');
+
+    // Admin
+    Route::get('/dashboard', 'Sites\PugVenturesLLC\AdminController@dashboard');
+
+    // Product
+    Route::get('/products', 'Sites\PugVenturesLLC\ProductController@products');
+    Route::get('/product/{id}', 'Sites\PugVenturesLLC\ProductController@editProduct');
 });
