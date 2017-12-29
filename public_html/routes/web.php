@@ -29,5 +29,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Product
     Route::get('/products', 'Sites\PugVenturesLLC\ProductController@products');
+    Route::get('/products/add', 'Sites\PugVenturesLLC\ProductController@addProduct');
     Route::get('/product/{id}', 'Sites\PugVenturesLLC\ProductController@editProduct');
+
+    Route::post('/products/imageupload/{id?}', 'Sites\PugVenturesLLC\ProductController@imageUpload');
 });

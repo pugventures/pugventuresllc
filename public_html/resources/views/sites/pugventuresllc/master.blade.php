@@ -13,12 +13,14 @@
         <link href="{{ URL::asset('css/font-awesome.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('css/font-awesome.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('libs/summernote/summernote-bs4.css') }}" rel="stylesheet">
+        <link href="{{ URL::asset('libs/dropzone/dropzone.css') }}" rel="stylesheet">
         
         <link rel="stylesheet" href="{{ URL::asset('css/amanda.css') }}">
 
         <!-- I know this is not "good", but it's easier to work with inline jQuery this way -->
         <script src="{{ URL::asset('js/jquery.min.js') }}"></script>
         <script src="{{ URL::asset('libs/summernote/summernote-bs4.min.js') }}"></script>
+        <script src="{{ URL::asset('libs/dropzone/dropzone.js') }}"></script>
     </head>
 
     <body>
