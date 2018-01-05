@@ -10,6 +10,15 @@
 </div>
 
 <form>
+        
+    <div class="row">
+        <div class="col-sm text-right">
+            <input type="button" class="btn btn-orange" value="Save Product"/>
+        </div>
+    </div>
+    
+    &nbsp;
+    
     <div class="row">
         <div class="col-sm-8">
             <div class="card card-body">
