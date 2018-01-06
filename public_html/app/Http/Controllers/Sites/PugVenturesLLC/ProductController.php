@@ -25,7 +25,7 @@ class ProductController extends Controller {
     public function addProduct(Request $request) {
         // TODO: Population of 'user' needs to be a global event on every request
         $this->data['user'] = Auth::user();
-
+        
         return view('sites.pugventuresllc.product', $this->data);
     }
 

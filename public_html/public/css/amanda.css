@@ -56619,3 +56619,15 @@ a.hover-white-8:hover, a.hover-white-8:focus {
     margin-left:0px;
     margin-bottom:10px;
 }
+
+#ebayCategorySuggestionsWrapper {
+    margin-top:20px;
+}
+
+.rdiobox {
+    margin-left:10px;
+}
+
+.rdiobox input[type='radio'] {
+    margin: 1px 5px 0 0;
+}
