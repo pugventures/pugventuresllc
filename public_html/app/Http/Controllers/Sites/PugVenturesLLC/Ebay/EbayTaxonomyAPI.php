@@ -34,5 +34,12 @@ trait EbayTaxonomyAPI {
         
         return $response->getBody();
     }
+    
+    public static function getCategoryItemAspects(Request $request) {
+        $client = new GuzzleHttp\Client(['headers' => ['Authorization' => 'Bearer ' . self::authenticate()]]);
+        $response = $client->get('https://api.ebay.com/commerce/taxonomy/v1_beta/category_tree/' . self::getCategoryTree()->categoryTreeId . '/get_item_aspects_for_category?category_id=' . $request->get('categoryId'));
+        
+        return $response->getBody();
+    }
 
 }

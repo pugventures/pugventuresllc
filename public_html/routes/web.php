@@ -35,4 +35,5 @@ Route::middleware(['auth'])->group(function () {
     
     // Ebay
     Route::get('/ebay/categorySuggestions', 'Sites\PugVenturesLLC\EbayController@getCategorySuggestions');
+    Route::get('/ebay/categoryItemAspects', 'Sites\PugVenturesLLC\EbayController@getCategoryItemAspects');
 });

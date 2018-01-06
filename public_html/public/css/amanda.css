@@ -56626,8 +56626,13 @@ a.hover-white-8:hover, a.hover-white-8:focus {
 
 .rdiobox {
     margin-left:10px;
+    font-size:11px;
 }
 
 .rdiobox input[type='radio'] {
     margin: 1px 5px 0 0;
+}
+
+#ebayCategoryItemAspectsWrapper {
+    display:none;
 }
