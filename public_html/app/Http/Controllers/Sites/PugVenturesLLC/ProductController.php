@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Sites\PugVenturesLLC;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Product;
 use Illuminate\Support\Facades\Input;
+use App\Models\Product;
+use App\Models\VariationAttribute;
 
 class ProductController extends Controller {
 
@@ -25,6 +26,7 @@ class ProductController extends Controller {
     public function addProduct(Request $request) {
         // TODO: Population of 'user' needs to be a global event on every request
         $this->data['user'] = Auth::user();
+        $this->data['variationAttributes'] = VariationAttribute::with('variationAttributeOptions')->get();
         
         return view('sites.pugventuresllc.product', $this->data);
     }

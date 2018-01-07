@@ -80,6 +80,21 @@ class DefaultTables extends Migration
             $table->timestamps();
         });
         
+        // Variation Attributes
+        Schema::create('variation_attributes', function (Blueprint $table) {
+            $table->increments('id')->unsigned();
+            $table->string('name');
+            $table->timestamps();
+        });
+        
+        // Variation Attribute Options
+        Schema::create('variation_attribute_options', function (Blueprint $table) {
+            $table->increments('id')->unsigned();
+            $table->smallInteger('variation_attribute_id')->unsigned();
+            $table->string('name');
+            $table->timestamps();
+        });
+        
         // Misc
         Schema::create('password_resets', function (Blueprint $table) {
             $table->string('email')->index();
@@ -97,6 +112,12 @@ class DefaultTables extends Migration
     {
         // Misc
         Schema::dropIfExists('password_resets');
+        
+        // Variation Attribute Options
+        Schema::dropIfExists('variation_attribute_options');
+        
+        // Variation Attributes
+        Schema::dropIfExists('variation_attributes');
         
         // Product Images
         Schema::dropIfExists('product_images');
