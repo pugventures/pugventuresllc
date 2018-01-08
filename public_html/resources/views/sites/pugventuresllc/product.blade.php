@@ -58,22 +58,6 @@
                 </div>
             </div>
 
-            &nbsp;
-
-            <div class="card card-body">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h5>Variations</h5>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#variationModal">Create Variation</button>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <div class="col-sm-4">
@@ -141,6 +125,65 @@
                 </div>
             </div>
 
+            &nbsp;
+
+            <div class="card card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Variations</h5>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#variationModal">Create Variation</button>
+                    </div>
+                </div>
+            </div>
+            
+            &nbsp;
+
+            <div class="card card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Size & Weight</h5>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12"><label class='form-control-label'>Dimensions</label></div>
+                    <div class="col-sm-4">
+                        <div class='form-group'>
+                            <input class="form-control" type="text" name="length" placeholder="length">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class='form-group'>
+                            <input class="form-control" type="text" name="width" placeholder="width">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class='form-group'>
+                            <input class="form-control" type="text" name="depth" placeholder="depth">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12"><label class='form-control-label'>Weight</label></div>
+                    <div class="col-sm-4">
+                        <div class='form-group'>
+                            <input class="form-control" type="text" name="lbs" placeholder="lbs">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class='form-group'>
+                            <input class="form-control" type="text" name="ozs" placeholder="oz">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -158,50 +201,70 @@
 
                     <div class="card card-body">
                         <div class="row">
-                            <div class="col-sm-6">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <h5>Variation Attributes</h5>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div id="variationAttributesWrapper" class="accordion" role="tablist" aria-multiselectable="true">
-
-                                            @foreach($variationAttributes as $attribute)
-                                            <div class="card">
-                                                <div class="card-header" role="tab" id="tab_{{ strtolower($attribute->name) }}">
-                                                    <h6 class="mg-b-0">
-                                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ strtolower($attribute->name) }}"
-                                                           aria-expanded="false" aria-controls="collapse_{{ strtolower($attribute->name) }}" class="tx-gray-800 transition collapsed">
-                                                            {{ $attribute->name }}
-                                                        </a>
-                                                    </h6>
-                                                </div><!-- card-header -->
-
-                                                <div id="collapse_{{ strtolower($attribute->name) }}" class="collapse" role="tabpanel" aria-labelledby="tab_{{ strtolower($attribute->name) }}">
-                                                    <div class="card-block">
-                                                        @foreach($attribute->variationAttributeOptions as $option)
-                                                        <button type="button" class="variationAttributeOptionBtn btn btn-default" data-option-id="{{ $option->id }}">{{ $option->name }}</button>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endforeach
-
-                                        </div>
-
+                            <div class="col-sm-12">
+                                <div class='form-group'>
+                                    <label class='form-control-label'>Variation Price</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="tx-16 lh-0 op-6 fas fa-dollar-sign"></i></span>
+                                        <input type="text" class="form-control" name="variation_price">
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="col-sm-6">
-                                <div class='form-group'>
-                                    <div id="ebayCategorySuggestionsWrapper">
-                                        Other column
+                    &nbsp;
+
+                    <div class="card card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h5>Variation Attributes</h5>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="variationAttributesWrapper" class="accordion" role="tablist" aria-multiselectable="true">
+
+                                    @foreach($variationAttributes as $attribute)
+                                    <div class="card">
+                                        <div class="card-header" role="tab" id="tab_{{ strtolower($attribute->name) }}">
+                                            <h6 class="mg-b-0">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ strtolower($attribute->name) }}"
+                                                   aria-expanded="false" aria-controls="collapse_{{ strtolower($attribute->name) }}" class="tx-gray-800 transition collapsed">
+                                                    {{ $attribute->name }}
+                                                </a>
+                                            </h6>
+                                        </div><!-- card-header -->
+
+                                        <div id="collapse_{{ strtolower($attribute->name) }}" class="collapse" role="tabpanel" aria-labelledby="tab_{{ strtolower($attribute->name) }}">
+                                            <div class="card-block">
+                                                @foreach($attribute->variationAttributeOptions as $option)
+                                                <button type="button" class="variationAttributeOptionBtn btn btn-default" data-option-id="{{ $option->id }}">{{ $option->name }}</button>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     </div>
+                                    @endforeach
+
                                 </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    &nbsp;
+
+                    <div class="card card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h5>Variation Images</h5>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="variationimagedropzone" class="dropzone"></div>
                             </div>
                         </div>
                     </div>
@@ -233,7 +296,7 @@
         }
     };
 
-    Dropzone.options.variantimagedropzone = {
+    Dropzone.options.variationimagedropzone = {
         url: "imageupload",
         paramName: "file", // The name that will be used to transfer the files
         maxFilesize: 2, // MB
@@ -274,9 +337,9 @@
             }
         });
     });
-    
-    $(".variationAttributeOptionBtn").bind('click', function(){
-        if($(this).hasClass("btn-default")) {
+
+    $(".variationAttributeOptionBtn").bind('click', function () {
+        if ($(this).hasClass("btn-default")) {
             // Turn Off
             $(this).removeClass("btn-default");
             $(this).addClass("btn-success");
