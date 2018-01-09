@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder {
             DefaultProductTypesSeeder::class,
             DefaultBrandsSeeder::class,
             DefaultVendorsSeeder::class,
-            DefaultProductsSeeder::class,
+            //DefaultProductsSeeder::class,
             DefaultVariationAttributesSeeder::class,
             DefaultVariationAttributeOptionsSeeder::class,
         ]);

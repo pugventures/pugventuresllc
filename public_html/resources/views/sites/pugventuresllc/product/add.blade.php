@@ -4,19 +4,35 @@
 
 @section('content')
 
-<form>
+<form action="{{ url('/product/submit') }}" method="POST">
+    {{ csrf_field() }}
+
     <div class="row">
         <div class="col-sm-6">
-            <h1>@if(empty($data['product'])) Add New Product @else {{ ucwords($product -> title) }} @endif</h1>
+            <h1>Add New Product</h1>
         </div>
 
 
         <div class="col-sm-6 text-right">
-            <input type="button" class="btn btn-orange" value="Save Product"/>
+            <input type="submit" class="btn btn-orange" value="Save Product"/>
         </div>
     </div>
 
     &nbsp;
+
+    @if ($errors->any())
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+    @endif
 
     <div class="row">
         <div class="col-sm-8">
@@ -24,6 +40,7 @@
                 <div class='form-group'>
                     <label class='form-control-label'>Title <span class='tx-danger'>*</span></label>
                     <input class="form-control" id="productTitle" type="text" name="title">
+                    <span id="title-characters-wrapper"><span id="title-characters-left">80</span> character(s) left</span>
                 </div>
 
                 <div class='form-group'>
@@ -32,13 +49,13 @@
                 </div>
 
                 <div class='form-group'>
-                    <label class='form-control-label'>SKU <span class='tx-danger'>*</span></label>
-                    <input class="form-control" type="text" name="sku">
+                    <label class='form-control-label'>UPC <span class='tx-danger'>*</span></label>
+                    <input class="form-control" type="text" name="upc">
                 </div>
 
                 <div class='form-group'>
-                    <label class='form-control-label'>UPC <span class='tx-danger'>*</span></label>
-                    <input class="form-control" type="text" name="upc">
+                    <label class='form-control-label'>Purchase URL <span class='tx-danger'>*</span></label>
+                    <input class="form-control" type="text" name="purchase_url">
                 </div>
             </div>
 
@@ -71,23 +88,57 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class='form-group'>
-                            <label class='form-control-label'>Default Price</label>
+                            <label class='form-control-label'>Item Cost <span class='tx-danger'>*</span></label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="tx-16 lh-0 op-6 fas fa-dollar-sign"></i></span>
-                                <input type="text" class="form-control" name="price">
+                                <input type="text" id="itemCost" class="form-control" name="itemCost">
                             </div>
                         </div>
                     </div>
 
                     <div class="col-sm-6">
                         <div class='form-group'>
-                            <label class='form-control-label'>Compare @ Price</label>
+                            <label class='form-control-label'>Shipping</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="tx-16 lh-0 op-6 fas fa-dollar-sign"></i></span>
-                                <input type="text" class="form-control" name="comparePrice">
+                                <input type="text" id="shippingCost" class="form-control" name="shippingCost">
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-sm-6">
+                        <div class='form-group'>
+                            <label class='form-control-label'>Dropship Fee</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="tx-16 lh-0 op-6 fas fa-dollar-sign"></i></span>
+                                <input type="text" id="dropshipCost" class="form-control" name="dropshipCost">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class='form-group'>
+                            <label class='form-control-label'>Calculate Total & Profit</label>
+                            <div class="input-group">
+                                <button id="calculateCostBtn" type="button" class="btn btn-primary btn-block">Calculate</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div id="price-wrapper">
+                            <table class="table">
+                                <tbody>
+                                    <tr><td><strong>Listing Total</strong></td><td style="text-align: right">$<span id="priceListingTotal">0.00</span></td></tr>
+                                    <tr><td><strong>Ebay Fees</strong></td><td style="text-align: right">$<span id="priceEbayFees">0.00</span></td></tr>
+                                    <tr><td><strong>Paypal Fees</strong></td><td style="text-align: right">$<span id="pricePaypalFees">0.00</span></td></tr>
+                                    <tr><td>&nbsp;</td><td><hr/></td></tr>
+                                    <tr><td><strong>Profit</strong></td><td style="text-align: right">$<span id="priceProfit">0.00</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -140,7 +191,7 @@
                     </div>
                 </div>
             </div>
-            
+
             &nbsp;
 
             <div class="card card-body">
@@ -306,7 +357,11 @@
     };
 
     $("#productTitle").bind('keyup', function () {
-        if ($("#productTitle").val().length > 3) {
+        var maxLength = 80;
+        var length = $("#productTitle").val().length;
+        $('#title-characters-left').text(maxLength - length);
+
+        if (length > 3) {
             $("#getEbayCategorySuggestionsBtn").removeAttr('disabled');
         } else {
             $("#getEbayCategorySuggestionsBtn").attr('disabled', 'true');
@@ -348,6 +403,22 @@
             $(this).addClass("btn-default");
             $(this).removeClass("btn-success");
         }
+    });
+
+    $('#calculateCostBtn').bind('click', function () {
+        var itemCost = parseFloat($('#itemCost').val());
+        var shippingCost = parseFloat($('#shippingCost').val());
+        var dropshipCost = parseFloat($('#dropshipCost').val());
+        
+        var listingTotal = itemCost + shippingCost + dropshipCost;
+        var ebayFees = listingTotal * 0.08; // 8% of total
+        var paypalFees = (listingTotal * 0.03) + 0.30; // 3% + 0.30
+        var profit = listingTotal - ebayFees - paypalFees;
+        
+        $('#priceListingTotal').text(listingTotal.toFixed(2));
+        $('#priceEbayFees').text(ebayFees.toFixed(2));
+        $('#pricePaypalFees').text(paypalFees.toFixed(2));
+        $('#priceProfit').text(profit.toFixed(2));
     });
 
     function getEbayCategorySuggestions(response) {
