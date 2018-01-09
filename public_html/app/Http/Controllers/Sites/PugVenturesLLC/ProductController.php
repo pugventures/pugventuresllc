@@ -26,28 +26,21 @@ class ProductController extends Controller {
     public function addProduct(Request $request) {
         // TODO: Population of 'user' needs to be a global event on every request
         $this->data['user'] = Auth::user();
+        $this->data['product'] = self::createEmptyProduct();
+        ;
         $this->data['variationAttributes'] = VariationAttribute::with('variationAttributeOptions')->get();
 
         return view('sites.pugventuresllc.product.add', $this->data);
     }
 
-    public function editProduct(Request $request, $id) {
-        // TODO: Population of 'user' needs to be a global event on every request
-        $this->data['user'] = Auth::user();
-        $this->data['product'] = Product::with(['type', 'vendor', 'brand'])->where('id', $id)->first();
-
-        return view('sites.pugventuresllc.product.edit', $this->data);
-    }
-
     public function submitProduct(Request $request) {
+
         // Validation
         $validation = $request->validate([
-            'title' => 'required|unique:posts|max:80',
-            'description' => 'required',
-            'upc' => 'required',
-            'purchase_url' => 'required|active_url',
-            'price' => 'required|integer'
+            'title' => 'required|max:80',
         ]);
+
+        dd('ok');
     }
 
     public function imageUpload(Request $request, $id = null) {
@@ -55,6 +48,30 @@ class ProductController extends Controller {
         // TODO: There will be a problem with files of the same name being
         //       overwritten if another file with the same name comes in
         return $request->file('file')->storeAs('public/products', Input::file('file')->getClientOriginalName());
+    }
+
+    public function saveDraft(Request $request) {
+        // Validation
+        $validation = $request->validate([
+            'id' => 'required|integer',
+            'field' => 'required|filled',
+            'value' => 'required|filled'
+        ]);
+
+        $field = $request->get('field');
+        $value = $request->get('value');
+        $product = Product::where('id', $request->get('id'))->first();
+        $product->$field = $value;
+        $product->save();
+        
+        return $product;
+    }
+
+    private function createEmptyProduct() {
+        $product = new Product();
+        $product->save();
+
+        return $product;
     }
 
 }

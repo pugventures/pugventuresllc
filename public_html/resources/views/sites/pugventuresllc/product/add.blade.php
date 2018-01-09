@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-sm-6">
-            <h1>Add New Product</h1>
+            <h1>Add New Product (id: {{ $product->id }})</h1>
         </div>
 
 
@@ -35,7 +35,7 @@
     @endif
 
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-7">
             <div class="card card-body">
                 <div class='form-group'>
                     <label class='form-control-label'>Title <span class='tx-danger'>*</span></label>
@@ -55,7 +55,7 @@
 
                 <div class='form-group'>
                     <label class='form-control-label'>Purchase URL <span class='tx-danger'>*</span></label>
-                    <input class="form-control" type="text" name="purchase_url">
+                    <input class="form-control" type="text" name="purchaseUrl">
                 </div>
             </div>
 
@@ -77,7 +77,7 @@
 
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-5">
             <div class="card card-body">
                 <div class="row">
                     <div class="col-sm-12">
@@ -91,7 +91,7 @@
                             <label class='form-control-label'>Item Cost <span class='tx-danger'>*</span></label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="tx-16 lh-0 op-6 fas fa-dollar-sign"></i></span>
-                                <input type="text" id="itemCost" class="form-control" name="itemCost">
+                                <input type="text" id="itemCost" class="form-control" name="itemCost" value="0.00">
                             </div>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                             <label class='form-control-label'>Shipping</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="tx-16 lh-0 op-6 fas fa-dollar-sign"></i></span>
-                                <input type="text" id="shippingCost" class="form-control" name="shippingCost">
+                                <input type="text" id="shippingCost" class="form-control" name="shippingCost" value="0.00">
                             </div>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                             <label class='form-control-label'>Dropship Fee</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="tx-16 lh-0 op-6 fas fa-dollar-sign"></i></span>
-                                <input type="text" id="dropshipCost" class="form-control" name="dropshipCost">
+                                <input type="text" id="dropshipCost" class="form-control" name="dropshipCost" value="0.00">
                             </div>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                         <div id="price-wrapper">
                             <table class="table">
                                 <tbody>
-                                    <tr><td><strong>Listing Total</strong></td><td style="text-align: right">$<span id="priceListingTotal">0.00</span></td></tr>
+                                    <tr><td><strong>Listing Total (including markup)</strong></td><td style="text-align: right">$<span id="priceListingTotal">0.00</span></td></tr>
                                     <tr><td><strong>Ebay Fees</strong></td><td style="text-align: right">$<span id="priceEbayFees">0.00</span></td></tr>
                                     <tr><td><strong>Paypal Fees</strong></td><td style="text-align: right">$<span id="pricePaypalFees">0.00</span></td></tr>
                                     <tr><td>&nbsp;</td><td><hr/></td></tr>
@@ -332,7 +332,6 @@
 </form>
 
 <script type="text/javascript">
-
     $('#summernote').summernote({
         height: 200,
         tooltip: false
@@ -369,6 +368,8 @@
     });
 
     $("#getEbayCategorySuggestionsBtn").bind('click', function () {
+        startProcessing();
+        
         var url = 'http://localhost/dev.pugventuresllc.com/public_html/public/ebay/categorySuggestions';
         var data = {title: $('#productTitle').val()};
 
@@ -376,7 +377,7 @@
         $("#ebayCategorySuggestionsWrapper").html("");
         $('#itemAspectsWrapper').html('<button type="button" class="btn btn-warning btn-block" disabled>Working...</button>');
         $('#ebayCategoryItemAspectsWrapper').hide();
-
+        
         $.ajax({
             url: url,
             data: data,
@@ -389,6 +390,8 @@
                 });
                 // Reset the button
                 $("#getEbayCategorySuggestionsBtn").removeAttr('disabled').html("Get Category Suggestions");
+                
+                stopProcessing();
             }
         });
     });
@@ -409,16 +412,20 @@
         var itemCost = parseFloat($('#itemCost').val());
         var shippingCost = parseFloat($('#shippingCost').val());
         var dropshipCost = parseFloat($('#dropshipCost').val());
-        
-        var listingTotal = itemCost + shippingCost + dropshipCost;
+
+        var listingTotal = (itemCost + shippingCost + dropshipCost) * 1.4; // Markup included
         var ebayFees = listingTotal * 0.08; // 8% of total
         var paypalFees = (listingTotal * 0.03) + 0.30; // 3% + 0.30
-        var profit = listingTotal - ebayFees - paypalFees;
-        
+        var profit = listingTotal - itemCost - shippingCost - dropshipCost - ebayFees - paypalFees;
+
         $('#priceListingTotal').text(listingTotal.toFixed(2));
         $('#priceEbayFees').text(ebayFees.toFixed(2));
         $('#pricePaypalFees').text(paypalFees.toFixed(2));
         $('#priceProfit').text(profit.toFixed(2));
+    });
+
+    $('.form-control').bind('blur', function () {
+        updateDraft($(this).attr('name'));
     });
 
     function getEbayCategorySuggestions(response) {
@@ -440,7 +447,10 @@
             $("#ebayCategorySuggestionsWrapper").append(item);
         }
     }
+
     function getEbayCategoryItemAspects(categoryId) {
+        startProcessing();
+    
         $('#itemAspectsWrapper').html('<button type="button" class="btn btn-warning btn-block" disabled>Working...</button>');
         $('#ebayCategoryItemAspectsWrapper').show();
         var url = 'http://localhost/dev.pugventuresllc.com/public_html/public/ebay/categoryItemAspects';
@@ -453,12 +463,18 @@
                 response = $.parseJSON(response);
 
                 var itemAspectsHtml = "<div class='card card-body'>";
-
                 for (var i = 0; i < response.aspects.length; i++) {
                     itemAspectsHtml = itemAspectsHtml + "<div class='form-group'><label class='form-control-label'>" + response.aspects[i].localizedAspectName + setRequired(response.aspects[i]) + "</label>" + setInput(response.aspects[i]) + "</div>";
                 }
                 itemAspectsHtml = itemAspectsHtml + "</div>";
                 $('#itemAspectsWrapper').html(itemAspectsHtml);
+
+                // Rebinds for newly created DOM
+                $('.form-control').bind('blur', function () {
+                    updateDraft($(this).attr('name'));
+                });
+                
+                stopProcessing();
             }
         });
     }
@@ -470,11 +486,12 @@
             return '';
         }
     }
+
     function setInput(aspect) {
         var fieldName = aspect.localizedAspectName.replace(/\//g, "_").replace(/ /g, "_").toLowerCase();
 
         if (aspect.aspectValues) {
-            var selections = '<select class="form-control select2"><option>&nbsp;</option>';
+            var selections = "<select class='form-control select2' name='[categoryAspect][" + fieldName + "]'><option>&nbsp;</option>";
 
             for (var i = 0; i < aspect.aspectValues.length; i++) {
                 var aspectValue = aspect.aspectValues[i].localizedValue.replace(/\//g, "_").replace(/ /g, "_").replace(/'/g, "").toLowerCase();
@@ -486,6 +503,34 @@
         } else {
             return "<input class='form-control' type='text' name='[categoryAspect][" + fieldName + "]'>";
         }
+    }
+
+    function updateDraft(field) {
+        startProcessing();
+        
+        var value = null;
+
+        if ($("input[name='" + field + "']").val()) {
+            value = $("input[name='" + field + "']").val();
+        } else {
+            value = $("select[name='" + field + "']").find(":selected").val();
+        }
+
+        var url = 'http://localhost/dev.pugventuresllc.com/public_html/public/product/saveDraft';
+        var data = {id: {{ $product->id }}, field: field, value: value};
+
+        $.ajax({
+            url: url,
+            data: data,
+            success: function (response) {
+                //response = $.parseJSON(response);
+
+                console.log(response);
+                
+                stopProcessing();
+            }
+        });
+
     }
 </script>
 @endsection

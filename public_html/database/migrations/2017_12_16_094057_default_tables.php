@@ -52,18 +52,20 @@ class DefaultTables extends Migration
         // Products
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('title');
+            $table->string('title')->default('No Title - Draft Only');
             $table->decimal('price', 5, 2)->default(0.00);
             $table->string('callout', 250)->nullable()->default(NULL);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('sku')->nullable()->default(NULL);
             $table->string('seo_page_title')->nullable()->default(NULL);
             $table->string('seo_meta_desc', 160)->nullable()->default(NULL);
             $table->string('seo_url')->nullable()->default(NULL);
-            $table->smallInteger('product_type_id')->unsigned();
+            $table->smallInteger('product_type_id')->default(0)->unsigned();
             $table->smallInteger('brand_id')->nullable()->default(NULL)->unsigned();
-            $table->smallInteger('vendor_id')->unsigned();
-            $table->string('purchase_url');
+            $table->smallInteger('vendor_id')->default(0)->unsigned();
+            $table->string('purchase_url')->default('No URL - Draft Only');
+            $table->tinyInteger('active')->default(0);
+            $table->tinyInteger('out_of_stock')->default(0);
             $table->timestamps();
             
             $table->foreign('product_type_id')->references('id')->on('product_types');

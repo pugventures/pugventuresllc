@@ -31,10 +31,7 @@
                             <div class="col-sm">
                                 <div><strong>{{ ucwords($product->title) }}</strong></div>
                                 <div class="product-hud">
-                                    <strong>SKU:</strong> {{ $product->sku }} &nbsp;
-                                    <strong>Type:</strong> {{ ucwords($product->type->type) }} &nbsp;
-                                    <strong>Brand:</strong> {{ ucwords($product->brand->brand) }} &nbsp;
-                                    <strong>Vendor:</strong> {{ ucwords($product->vendor->name) }} &nbsp;
+                                    <strong>SKU:</strong> {{ $product->sku }}
                                 </div>
                             </div>
                         </div>

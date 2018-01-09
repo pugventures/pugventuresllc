@@ -14,13 +14,25 @@
         <link href="{{ URL::asset('css/font-awesome.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('libs/summernote/summernote-bs4.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('libs/dropzone/dropzone.css') }}" rel="stylesheet">
-        
+
         <link rel="stylesheet" href="{{ URL::asset('css/amanda.css') }}">
 
         <!-- I know this is not "good", but it's easier to work with inline jQuery this way -->
         <script src="{{ URL::asset('js/jquery.min.js') }}"></script>
         <script src="{{ URL::asset('libs/summernote/summernote-bs4.min.js') }}"></script>
         <script src="{{ URL::asset('libs/dropzone/dropzone.js') }}"></script>
+
+        <script type="text/javascript">
+            function startProcessing() {
+                console.log('processing...');
+                document.getElementById('data-processing-indicator').style.color = "#33cc33";
+            }
+
+            function stopProcessing() {
+                console.log('...done');
+                document.getElementById('data-processing-indicator').style.color = "#c2c7cd";
+            }
+        </script>
     </head>
 
     <body>
@@ -91,7 +103,7 @@
                     <a href="#notificationsMenu" class="nav-link"><i class="icon fas fa-bell tx-24"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a href="#settingMenu" class="nav-link"><i class="icon fas fa-cogs tx-24"></i></a>
+                    <a href="#settingMenu" class="nav-link"><i id="data-processing-indicator" class="icon fas fa-cogs tx-24 sleep"></i></a>
                 </li>
             </ul>
 
@@ -257,7 +269,7 @@
         <script src="{{ URL::asset('js/bootstrap.js') }}"></script>
         <script src="{{ URL::asset('js/perfect-scrollbar.jquery.js') }}"></script>
         <script src="{{ URL::asset('js/toggles.min.js') }}"></script>
-        
+
         <script src="{{ URL::asset('js/amanda.js') }}"></script>
 
     </body>

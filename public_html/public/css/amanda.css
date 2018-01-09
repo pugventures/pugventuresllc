@@ -56646,3 +56646,10 @@ a.hover-white-8:hover, a.hover-white-8:focus {
 #title-characters-left {
     font-weight:bold;
 }
+
+#data-processing-indicator.sleep {
+    color:#868e96;
+}
+#data-processing-indicator.processing {
+    color:#009900;
+}

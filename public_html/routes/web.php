@@ -30,10 +30,10 @@ Route::middleware(['auth'])->group(function () {
     // Product
     Route::get('/products', 'Sites\PugVenturesLLC\ProductController@products');
     Route::get('/products/add', 'Sites\PugVenturesLLC\ProductController@addProduct');
-    Route::get('/product/{id}', 'Sites\PugVenturesLLC\ProductController@editProduct');
+    Route::get('/product/saveDraft', 'Sites\PugVenturesLLC\ProductController@saveDraft');
     Route::post('/products/imageupload/{id?}', 'Sites\PugVenturesLLC\ProductController@imageUpload');
     Route::post('/product/submit', 'Sites\PugVenturesLLC\ProductController@submitProduct');
-    
+
     // Ebay
     Route::get('/ebay/categorySuggestions', 'Sites\PugVenturesLLC\EbayController@getCategorySuggestions');
     Route::get('/ebay/categoryItemAspects', 'Sites\PugVenturesLLC\EbayController@getCategoryItemAspects');
