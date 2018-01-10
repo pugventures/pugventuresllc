@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use App\Models\Product;
 use App\Models\VariationAttribute;
+use App\Models\ProductImage;
 
 class ProductController extends Controller {
 
@@ -18,7 +19,7 @@ class ProductController extends Controller {
     public function products(Request $request) {
         // TODO: Population of 'user' needs to be a global event on every request
         $this->data['user'] = Auth::user();
-        $this->data['products'] = Product::with(['type', 'vendor', 'brand'])->paginate(25);
+        $this->data['products'] = Product::paginate(25);
 
         return view('sites.pugventuresllc.product.products', $this->data);
     }
@@ -43,10 +44,17 @@ class ProductController extends Controller {
         dd('ok');
     }
 
-    public function imageUpload(Request $request, $id = null) {
+    public function imageUpload(Request $request) {
         // TODO: Need to associate the id with the images if it's an edit
         // TODO: There will be a problem with files of the same name being
         //       overwritten if another file with the same name comes in
+        $image = new ProductImage();
+        $image->product_id = $request->get('id');
+        $image->image_path = Input::file('file')->getClientOriginalName();
+        $image->created_at = date('Y-m-d H:i:s', time());
+        $image->updated_at = date('Y-m-d H:i:s', time());
+        $image->save();
+        
         return $request->file('file')->storeAs('public/products', Input::file('file')->getClientOriginalName());
     }
 

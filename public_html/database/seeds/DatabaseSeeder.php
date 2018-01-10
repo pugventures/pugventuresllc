@@ -12,10 +12,6 @@ class DatabaseSeeder extends Seeder {
     public function run() {
         $this->call([
             DefaultUsersSeeder::class,
-            DefaultProductTypesSeeder::class,
-            DefaultBrandsSeeder::class,
-            DefaultVendorsSeeder::class,
-            //DefaultProductsSeeder::class,
             DefaultVariationAttributesSeeder::class,
             DefaultVariationAttributeOptionsSeeder::class,
         ]);

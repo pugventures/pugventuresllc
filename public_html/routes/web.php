@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/products', 'Sites\PugVenturesLLC\ProductController@products');
     Route::get('/products/add', 'Sites\PugVenturesLLC\ProductController@addProduct');
     Route::get('/product/saveDraft', 'Sites\PugVenturesLLC\ProductController@saveDraft');
-    Route::post('/products/imageupload/{id?}', 'Sites\PugVenturesLLC\ProductController@imageUpload');
+    Route::post('/products/imageupload', 'Sites\PugVenturesLLC\ProductController@imageUpload');
     Route::post('/product/submit', 'Sites\PugVenturesLLC\ProductController@submitProduct');
 
     // Ebay

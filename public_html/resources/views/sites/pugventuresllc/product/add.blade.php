@@ -55,7 +55,7 @@
 
                 <div class='form-group'>
                     <label class='form-control-label'>Purchase URL <span class='tx-danger'>*</span></label>
-                    <input class="form-control" type="text" name="purchaseUrl">
+                    <input class="form-control" type="text" name="purchase_url">
                 </div>
             </div>
 
@@ -64,13 +64,13 @@
             <div class="card card-body">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h5>Images</h5>
+                        <h5>Variations</h5>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-12">
-                        <div id="productimagedropzone" class="dropzone"></div>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#variationModal">Create Variation</button>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                             <label class='form-control-label'>Item Cost <span class='tx-danger'>*</span></label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="tx-16 lh-0 op-6 fas fa-dollar-sign"></i></span>
-                                <input type="text" id="itemCost" class="form-control" name="itemCost" value="0.00">
+                                <input type="text" id="itemCost" class="form-control" name="item_cost" value="0.00">
                             </div>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                             <label class='form-control-label'>Shipping</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="tx-16 lh-0 op-6 fas fa-dollar-sign"></i></span>
-                                <input type="text" id="shippingCost" class="form-control" name="shippingCost" value="0.00">
+                                <input type="text" id="shippingCost" class="form-control" name="shipping_cost" value="0.00">
                             </div>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                             <label class='form-control-label'>Dropship Fee</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="tx-16 lh-0 op-6 fas fa-dollar-sign"></i></span>
-                                <input type="text" id="dropshipCost" class="form-control" name="dropshipCost" value="0.00">
+                                <input type="text" id="dropshipCost" class="form-control" name="dropship_cost" value="0.00">
                             </div>
                         </div>
                     </div>
@@ -181,22 +181,6 @@
             <div class="card card-body">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h5>Variations</h5>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#variationModal">Create Variation</button>
-                    </div>
-                </div>
-            </div>
-
-            &nbsp;
-
-            <div class="card card-body">
-                <div class="row">
-                    <div class="col-sm-12">
                         <h5>Size & Weight</h5>
                     </div>
                 </div>
@@ -224,12 +208,12 @@
                     <div class="col-sm-12"><label class='form-control-label'>Weight</label></div>
                     <div class="col-sm-4">
                         <div class='form-group'>
-                            <input class="form-control" type="text" name="lbs" placeholder="lbs">
+                            <input class="form-control" type="text" name="pounds" placeholder="lbs">
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class='form-group'>
-                            <input class="form-control" type="text" name="ozs" placeholder="oz">
+                            <input class="form-control" type="text" name="ounces" placeholder="oz">
                         </div>
                     </div>
                 </div>
@@ -303,23 +287,6 @@
                             </div>
                         </div>
                     </div>
-
-                    &nbsp;
-
-                    <div class="card card-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <h5>Variation Images</h5>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div id="variationimagedropzone" class="dropzone"></div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -328,32 +295,31 @@
             </div>
         </div>
     </div>
-
 </form>
+
+&nbsp;
+
+<div class="card card-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <h5>Images</h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <form id="dropzone_primary" action="{{ url('/products/imageupload') }}" class="dropzone">
+                <input type="hidden" name="id" value="{{ $product->id }}" />
+            </form>
+        </div>
+    </div> 
+</div>
 
 <script type="text/javascript">
     $('#summernote').summernote({
         height: 200,
         tooltip: false
     });
-
-    Dropzone.options.productimagedropzone = {
-        url: "imageupload",
-        paramName: "file", // The name that will be used to transfer the files
-        maxFilesize: 2, // MB
-        accept: function (file, done) {
-            done();
-        }
-    };
-
-    Dropzone.options.variationimagedropzone = {
-        url: "imageupload",
-        paramName: "file", // The name that will be used to transfer the files
-        maxFilesize: 2, // MB
-        accept: function (file, done) {
-            done();
-        }
-    };
 
     $("#productTitle").bind('keyup', function () {
         var maxLength = 80;
@@ -424,8 +390,12 @@
         $('#priceProfit').text(profit.toFixed(2));
     });
 
+    // Update Draft
     $('.form-control').bind('blur', function () {
         updateDraft($(this).attr('name'));
+    });
+    $('.note-editable').bind('blur', function(){
+        updateDraft('description');
     });
 
     function getEbayCategorySuggestions(response) {
@@ -509,11 +479,19 @@
         startProcessing();
         
         var value = null;
-
-        if ($("input[name='" + field + "']").val()) {
+        
+        if (field == "description") {
+            value = $('#summernote').summernote('code');
+        } else if ($("input[name='" + field + "']").val()) {
             value = $("input[name='" + field + "']").val();
         } else {
             value = $("select[name='" + field + "']").find(":selected").val();
+        }
+        
+        // If the field is empty...don't do anything
+        if(value == undefined) { 
+            stopProcessing();
+            return; 
         }
 
         var url = 'http://localhost/dev.pugventuresllc.com/public_html/public/product/saveDraft';
